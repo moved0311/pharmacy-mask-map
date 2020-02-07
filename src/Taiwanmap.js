@@ -57,6 +57,8 @@ componentDidMount(){
             makersArr.push(marker);
           });
       }
+    }else{
+      console.log("data doesn't load sucuess. ")
     }
 
     return null;
@@ -64,7 +66,7 @@ componentDidMount(){
 
   loadData(){
     const xhr = new XMLHttpRequest();
-    const url = `/1090205特約藥局配送口罩名單(計6252家).csv`;
+    const url = `/1090205data.csv`;
     var self = this;
     xhr.open('GET', url, true);
     xhr.onload = function(){
