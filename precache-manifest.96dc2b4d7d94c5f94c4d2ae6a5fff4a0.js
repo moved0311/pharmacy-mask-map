@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "44c8be798f4ccb36a39351d2f1a9f4fc",
+    "revision": "276a0534c5ed09f92ad8989f5abdc06c",
     "url": "/pharmacy-mask-map/index.html"
   },
   {
-    "revision": "1b6e5486884c97e8eb44",
+    "revision": "5169942f542b0a5da7f0",
     "url": "/pharmacy-mask-map/static/css/main.8e346b56.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/pharmacy-mask-map/static/js/2.3e7c9c66.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "1b6e5486884c97e8eb44",
-    "url": "/pharmacy-mask-map/static/js/main.050e3d2b.chunk.js"
+    "revision": "5169942f542b0a5da7f0",
+    "url": "/pharmacy-mask-map/static/js/main.b97f4048.chunk.js"
   },
   {
     "revision": "d8b2372355c4f412ea65",
