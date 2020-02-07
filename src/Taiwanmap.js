@@ -64,7 +64,7 @@ componentDidMount(){
 
   loadData(){
     const xhr = new XMLHttpRequest();
-    const url = "/1090205data.csv";
+    const url = process.env.PUBLIC_URL +"/1090205data.csv";
     var self = this;
     xhr.open('GET', url, true);
     xhr.onload = function(){
