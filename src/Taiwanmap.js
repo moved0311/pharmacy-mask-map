@@ -31,11 +31,33 @@ componentDidMount(){
  static getDerivedStateFromProps(nextProps, prevState) {
     let L = window.L;
     var makersArr = [];
-    let area = prevState.data.filter(function(item, index, array){
-      if(prevState.inputValue.lenght !== 0) 
+    /*
+    let area = (prevState.inputValue.length>=6) ?
+    prevState.data.filter(function(item, index, array){
+      return (item['縣市別'] === prevState.inputValue.substr(0,3)) &&
+                    (item['鄉鎮別'] === prevState.inputValue.substr(3));
+    }) :
+    prevState.data.filter(function(item, index, array){
+      if(prevState.inputValue.lenght !== 0){ 
         return item['鄉鎮別'] === prevState.inputValue;
-    });
-
+      }
+      return 0;
+    })*/
+  let area = [];
+  if(prevState.inputValue.length > 0){
+      if(prevState.inputValue.length > 5){
+        area = prevState.data.filter(d => {
+          return d['縣市別'] ===  prevState.inputValue.substr(0,3);
+        })
+        area = area.filter(d =>{
+          return d['鄉鎮別'] === prevState.inputValue.substr(3);
+        })
+      }else{
+        area = prevState.data.filter(d =>{
+          return d['鄉鎮別'] === prevState.inputValue;
+        })
+      }
+  }
     if(prevState.loaded){
       for(let pharmacy of area){ //area.length
           // console.log('2.', prevState.data[i]['機構地址']);
