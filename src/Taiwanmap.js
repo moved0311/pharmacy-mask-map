@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './Taiwanmap.css';
-import $ from 'jquery';
 
 export default class Taiwanmap extends Component {
   constructor(props){
@@ -10,7 +9,8 @@ export default class Taiwanmap extends Component {
       data: [],
       loaded: false,
       options:[],
-      inputValue : ""
+      inputValue : "",
+      makersArr: []
     }
     this.clickhandler = this.clickhandler.bind(this);
   }
@@ -25,24 +25,11 @@ componentDidMount(){
   this.setState({map: map});
   
   this.loadData(); //load (/public/data.csv) to state
-
-
  }
  static getDerivedStateFromProps(nextProps, prevState) {
     let L = window.L;
-    var makersArr = [];
-    /*
-    let area = (prevState.inputValue.length>=6) ?
-    prevState.data.filter(function(item, index, array){
-      return (item['縣市別'] === prevState.inputValue.substr(0,3)) &&
-                    (item['鄉鎮別'] === prevState.inputValue.substr(3));
-    }) :
-    prevState.data.filter(function(item, index, array){
-      if(prevState.inputValue.lenght !== 0){ 
-        return item['鄉鎮別'] === prevState.inputValue;
-      }
-      return 0;
-    })*/
+    // var makersArr = [];
+
   let area = [];
   if(prevState.inputValue.length > 0){
       if(prevState.inputValue.length > 5){
@@ -57,43 +44,47 @@ componentDidMount(){
           return d['鄉鎮別'] === prevState.inputValue;
         })
       }
+      console.log('共' + area.length +'比結果');
   }
     if(prevState.loaded){
-      for(let pharmacy of area){ //area.length
-          // console.log('2.', prevState.data[i]['機構地址']);
-          L.esri.Geocoding.geocode().address(pharmacy['機構地址']).run(function (err, results, response) {
-            if (err) {
-              // console.log(err);
-              return;
-            }
-            // console.log(results.results[0].latlng);  //first address result latlng 
-            let latlng = results.results[0].latlng;
-            let marker = new L.marker(latlng);
-            let popupmsg = `
-            藥局名稱: ${pharmacy['醫事機構名稱']}<br/>
-            地址: ${pharmacy['機構地址']}<br/>
-            醫事機構代碼: ${pharmacy['醫事機構代碼']} <br/>
-            電話: (${pharmacy['電話區域號碼']})-${pharmacy['電話號碼']}`
-            marker.bindPopup(popupmsg);
-            prevState.map.addLayer(marker);
-            makersArr.push(marker);
-          });
+      for(let pharmacy of area){ 
+        const xhr = new XMLHttpRequest();
+        let url = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?address=${pharmacy['機構地址']}&f=json`
+        xhr.open('GET', url, true);
+        xhr.onload = function(){
+          let point = JSON.parse(this.response)['candidates'][0]['location'];
+          let marker = new L.marker(new L.latLng([point.y, point.x]));
+          let popupmsg = `
+          藥局名稱: ${pharmacy['醫事機構名稱']}<br/>
+          地址: ${pharmacy['機構地址']}<br/>
+          醫事機構代碼: ${pharmacy['醫事機構代碼']} <br/>
+          電話: (${pharmacy['電話區域號碼']})-${pharmacy['電話號碼']}<br/>
+          成人口罩總剩餘數: ${pharmacy['成人口罩總剩餘數']}<br/>
+          兒童口罩剩餘數: ${pharmacy['兒童口罩剩餘數']}<br/>
+          來源資料時間: ${pharmacy['來源資料時間']}
+          `
+          marker.bindPopup(popupmsg);
+          prevState.map.addLayer(marker);
+          prevState.makersArr.push(marker);
+        }
+        xhr.send();
       }
     }
-
     return null;
  }
 
   loadData(){
     const xhr = new XMLHttpRequest();
-    const url = process.env.PUBLIC_URL +"/1090205data.csv";
+    const url = "https://raw.githubusercontent.com/moved0311/get-mask-data/master/output.csv"
     var self = this;
     xhr.open('GET', url, true);
-    xhr.onload = function(){
-      self.setState({
-        data : self.csvJSON(this.response),
-        loaded: true
-      });
+    xhr.onreadystatechange = function(){
+      if(this.readyState === 4 && this.status === 200){
+        self.setState({
+          data : self.csvJSON(this.response),
+          loaded: true
+        });
+      }
     }
     xhr.send();
   }
@@ -113,15 +104,14 @@ componentDidMount(){
   }
   clickhandler(event){
     //remove exist marker. 
-    $(".leaflet-marker-icon").remove(); 
-    $(".leaflet-popup").remove();
-    $(".leaflet-shadow-pane img").remove();
+    for(let marker of this.state.makersArr){
+      this.state.map.removeLayer(marker);
+    }
 
     console.log('查詢:' + this.inputValue.value);
     this.setState({inputValue: this.inputValue.value});
   }
   render() {
-
     return (
       <div>
         <div id="taiwanmap"> </div>
