@@ -1,16 +1,12 @@
 import React from 'react';
 import Taiwanmap from './Taiwanmap';
 import './App.css';
-
+import ReactGA from 'react-ga';
+ReactGA.initialize('UA-158033292-1');
+ReactGA.pageview(window.location.pathname + window.location.search);
 function App() {
   return (
     <div id="App" >
-        {/* <div id="info"> */}
-           {/* <span>特約藥局配送口罩名單</span> */}
-           {/* <span id="area">鄉鎮別: */}
-             {/* <select id="areaSelect"></select> */}
-           {/* </span> */}
-        {/* </div> */}
         <Taiwanmap></Taiwanmap>
     </div>
   );
