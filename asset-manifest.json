@@ -1,22 +1,22 @@
 {
   "files": {
     "main.css": "/pharmacy-mask-map/static/css/main.8e346b56.chunk.css",
-    "main.js": "/pharmacy-mask-map/static/js/main.b6a26a05.chunk.js",
-    "main.js.map": "/pharmacy-mask-map/static/js/main.b6a26a05.chunk.js.map",
+    "main.js": "/pharmacy-mask-map/static/js/main.24caf13d.chunk.js",
+    "main.js.map": "/pharmacy-mask-map/static/js/main.24caf13d.chunk.js.map",
     "runtime-main.js": "/pharmacy-mask-map/static/js/runtime-main.b7906378.js",
     "runtime-main.js.map": "/pharmacy-mask-map/static/js/runtime-main.b7906378.js.map",
-    "static/js/2.3e7c9c66.chunk.js": "/pharmacy-mask-map/static/js/2.3e7c9c66.chunk.js",
-    "static/js/2.3e7c9c66.chunk.js.map": "/pharmacy-mask-map/static/js/2.3e7c9c66.chunk.js.map",
+    "static/js/2.941adafb.chunk.js": "/pharmacy-mask-map/static/js/2.941adafb.chunk.js",
+    "static/js/2.941adafb.chunk.js.map": "/pharmacy-mask-map/static/js/2.941adafb.chunk.js.map",
     "index.html": "/pharmacy-mask-map/index.html",
-    "precache-manifest.97e491af686f9076d9894723cb64ad53.js": "/pharmacy-mask-map/precache-manifest.97e491af686f9076d9894723cb64ad53.js",
+    "precache-manifest.8e4d3359aab48e9742b4ae2d7914e2b8.js": "/pharmacy-mask-map/precache-manifest.8e4d3359aab48e9742b4ae2d7914e2b8.js",
     "service-worker.js": "/pharmacy-mask-map/service-worker.js",
     "static/css/main.8e346b56.chunk.css.map": "/pharmacy-mask-map/static/css/main.8e346b56.chunk.css.map",
-    "static/js/2.3e7c9c66.chunk.js.LICENSE.txt": "/pharmacy-mask-map/static/js/2.3e7c9c66.chunk.js.LICENSE.txt"
+    "static/js/2.941adafb.chunk.js.LICENSE.txt": "/pharmacy-mask-map/static/js/2.941adafb.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.b7906378.js",
-    "static/js/2.3e7c9c66.chunk.js",
+    "static/js/2.941adafb.chunk.js",
     "static/css/main.8e346b56.chunk.css",
-    "static/js/main.b6a26a05.chunk.js"
+    "static/js/main.24caf13d.chunk.js"
   ]
 }
