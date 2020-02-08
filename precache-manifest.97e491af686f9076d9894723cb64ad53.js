@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "28338a87596e9701aa6884f9782d18cf",
+    "revision": "390aaae0ccbff5df8e60766e0afa194d",
     "url": "/pharmacy-mask-map/index.html"
   },
   {
