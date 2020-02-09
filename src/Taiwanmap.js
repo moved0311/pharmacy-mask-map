@@ -31,12 +31,10 @@ componentDidMount(){
     // var makersArr = [];
   // console.log(prevState.data['features']);
   let area = [];
-  let testSample = [];
   let allPharmacy = prevState.data['features'];
-  
+
+
   if(prevState.inputValue.length > 0){
-      // let testSample = allPharmacy.slice(0,10);
-    //  console.log(testSample);
       if(prevState.inputValue.length > 5){
            area = allPharmacy.filter(addr =>{
             return addr['properties']['address'].substr(0,6) === prevState.inputValue;
@@ -48,12 +46,29 @@ componentDidMount(){
       }
       console.log('共' + area.length +'比結果');
   }
-    if(prevState.loaded){
-      // let testSample = allPharmacy.slice(0,10);
+    if(prevState.loaded){  
       for(let pharmacy of area){ 
         let coordiantes = pharmacy['geometry']['coordinates'];
         coordiantes = [coordiantes[1], coordiantes[0]];
         let marker = new L.marker(new L.latLng(coordiantes));
+        let masknum = pharmacy['properties']['mask_adult'];
+        if( masknum >= 50){
+          marker = new L.marker(new L.latLng(coordiantes));
+        }else if(masknum <= 50 && masknum > 0){
+          let icontype = `https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png`
+          let Icon = new L.Icon({
+            iconUrl: icontype,
+            iconSize: [25, 41]
+          });
+          marker = new L.marker(new L.latLng(coordiantes), {icon: Icon});
+        }else{
+          let icontype = `https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-grey.png`
+          let Icon = new L.Icon({
+            iconUrl: icontype,
+            iconSize: [25, 41]
+          });
+          marker = new L.marker(new L.latLng(coordiantes), {icon: Icon});
+        }
         let popupmsg = `
         藥局名稱: ${pharmacy['properties']['name']}<br/>
         地址: ${pharmacy['properties']['address']}<br/>
