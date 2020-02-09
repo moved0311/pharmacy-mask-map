@@ -1,6 +1,6 @@
 ## 特約藥局配送口罩地圖
 ### [Demo](https://moved0311.github.io/pharmacy-mask-map/)
-![result1.png](./result.png)
+![result.png](./result1.png)
 
 ## Reference
 #### map library
