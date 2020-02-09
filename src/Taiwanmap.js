@@ -29,45 +29,44 @@ componentDidMount(){
  static getDerivedStateFromProps(nextProps, prevState) {
     let L = window.L;
     // var makersArr = [];
-
+  // console.log(prevState.data['features']);
   let area = [];
+  let testSample = [];
+  let allPharmacy = prevState.data['features'];
+  
   if(prevState.inputValue.length > 0){
+      // let testSample = allPharmacy.slice(0,10);
+    //  console.log(testSample);
       if(prevState.inputValue.length > 5){
-        area = prevState.data.filter(d => {
-          return d['縣市別'] ===  prevState.inputValue.substr(0,3);
-        })
-        area = area.filter(d =>{
-          return d['鄉鎮別'] === prevState.inputValue.substr(3);
-        })
+           area = allPharmacy.filter(addr =>{
+            return addr['properties']['address'].substr(0,6) === prevState.inputValue;
+          })
       }else{
-        area = prevState.data.filter(d =>{
-          return d['鄉鎮別'] === prevState.inputValue;
-        })
+          area = allPharmacy.filter(addr =>{
+            return addr['properties']['address'].substr(3,3) === prevState.inputValue;
+          })
+          console.log(area);
       }
       console.log('共' + area.length +'比結果');
   }
     if(prevState.loaded){
+      // let testSample = allPharmacy.slice(0,10);
       for(let pharmacy of area){ 
-        const xhr = new XMLHttpRequest();
-        let url = `https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?address=${pharmacy['機構地址']}&f=json`
-        xhr.open('GET', url, true);
-        xhr.onload = function(){
-          let point = JSON.parse(this.response)['candidates'][0]['location'];
-          let marker = new L.marker(new L.latLng([point.y, point.x]));
-          let popupmsg = `
-          藥局名稱: ${pharmacy['醫事機構名稱']}<br/>
-          地址: ${pharmacy['機構地址']}<br/>
-          醫事機構代碼: ${pharmacy['醫事機構代碼']} <br/>
-          電話: (${pharmacy['電話區域號碼']})-${pharmacy['電話號碼']}<br/>
-          成人口罩總剩餘數: ${pharmacy['成人口罩總剩餘數']}<br/>
-          兒童口罩剩餘數: ${pharmacy['兒童口罩剩餘數']}<br/>
-          來源資料時間: ${pharmacy['來源資料時間']}
-          `
-          marker.bindPopup(popupmsg);
-          prevState.map.addLayer(marker);
-          prevState.makersArr.push(marker);
-        }
-        xhr.send();
+        let coordiantes = pharmacy['geometry']['coordinates'];
+        coordiantes = [coordiantes[1], coordiantes[0]];
+        let marker = new L.marker(new L.latLng(coordiantes));
+        let popupmsg = `
+        藥局名稱: ${pharmacy['properties']['name']}<br/>
+        地址: ${pharmacy['properties']['address']}<br/>
+        醫事機構代碼: ${pharmacy['properties']['id']} <br/>
+        電話: ${pharmacy['properties']['phone']}<br/>
+        成人口罩總剩餘數: ${pharmacy['properties']['mask_adult']}<br/>
+        兒童口罩剩餘數: ${pharmacy['properties']['mask_child']}<br/>
+        來源資料時間: ${pharmacy['properties']['updated']}
+        `
+        marker.bindPopup(popupmsg);
+        prevState.map.addLayer(marker);
+        prevState.makersArr.push(marker);
       }
     }
     return null;
@@ -75,13 +74,14 @@ componentDidMount(){
 
   loadData(){
     const xhr = new XMLHttpRequest();
-    const url = "https://raw.githubusercontent.com/moved0311/get-mask-data/master/output.csv"
+    // const url = "https://raw.githubusercontent.com/moved0311/get-mask-data/master/output.csv"
+    const url ="https://raw.githubusercontent.com/kiang/pharmacies/master/json/points.json?fbclid=IwAR3fyzFIBPOMj1WcDLJaXEYFZQiAlfW9BFYpsSN_sELepbKtdjM4HGgP7NM"
     var self = this;
     xhr.open('GET', url, true);
     xhr.onreadystatechange = function(){
       if(this.readyState === 4 && this.status === 200){
         self.setState({
-          data : self.csvJSON(this.response),
+          data : JSON.parse(this.response),
           loaded: true
         });
       }
@@ -118,7 +118,7 @@ componentDidMount(){
         <div id="query" className="leaflet-bar">
           <label>
           鄉鎮別:
-          <input  placeholder="大安區" ref={(c) => this.inputValue = c}></input>
+          <input  placeholder="台北市大安區 or 大安區" ref={(c) => this.inputValue = c}></input>
           <button onClick={this.clickhandler}>查詢</button>
           </label>
         </div>
