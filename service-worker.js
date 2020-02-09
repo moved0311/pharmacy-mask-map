@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/pharmacy-mask-map/precache-manifest.3ca3dc9994971f974e15e214559a816d.js"
+  "/pharmacy-mask-map/precache-manifest.f4a74941979cc01c28139e821fd91b88.js"
 );
 
 self.addEventListener('message', (event) => {
