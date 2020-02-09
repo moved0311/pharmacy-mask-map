@@ -10,3 +10,7 @@
 * [L.esri.Geocoding.Geocode](http://esri.github.io/esri-leaflet/api-reference/tasks/geocode.html)
 #### query
 * [Querying features](https://esri.github.io/esri-leaflet/examples/querying-feature-layers-1.html)
+#### real time data 
+* [kiang/pharmacies/json](https://github.com/kiang/pharmacies/tree/master/json)
+#### color marker
+* [leaflet-color-markers](https://github.com/pointhi/leaflet-color-markers)
