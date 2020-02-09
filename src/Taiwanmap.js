@@ -45,7 +45,6 @@ componentDidMount(){
           area = allPharmacy.filter(addr =>{
             return addr['properties']['address'].substr(3,3) === prevState.inputValue;
           })
-          console.log(area);
       }
       console.log('共' + area.length +'比結果');
   }
